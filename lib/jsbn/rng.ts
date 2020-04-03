@@ -5,15 +5,17 @@ let rng_state:Arcfour;
 let rng_pool:number[] = null;
 let rng_pptr:number;
 
+declare var globalThis:any;
+
 // Initialize the pool with junk if needed.
 if (rng_pool == null) {
   rng_pool = [];
   rng_pptr = 0;
   let t;
-  if (window.crypto && window.crypto.getRandomValues) {
+  if (globalThis.crypto && globalThis.crypto.getRandomValues) {
     // Extract entropy (2048 bits) from RNG if available
     const z = new Uint32Array(256);
-    window.crypto.getRandomValues(z);
+    globalThis.crypto.getRandomValues(z);
     for (t = 0; t < z.length; ++t) {
         rng_pool[rng_pptr++] = z[t] & 255;
     }
@@ -24,10 +26,10 @@ if (rng_pool == null) {
   const onMouseMoveListener = function (ev:Event & {x:number; y:number; }) {
     this.count = this.count || 0;
     if (this.count >= 256 || rng_pptr >= rng_psize) {
-      if (window.removeEventListener) {
-          window.removeEventListener("mousemove", onMouseMoveListener, false);
-      } else if ((window as any).detachEvent) {
-          (window as any).detachEvent("onmousemove", onMouseMoveListener);
+      if (globalThis.removeEventListener) {
+          globalThis.removeEventListener("mousemove", onMouseMoveListener, false);
+      } else if ((globalThis as any).detachEvent) {
+          (globalThis as any).detachEvent("onmousemove", onMouseMoveListener);
       }
       return;
     }
@@ -39,10 +41,10 @@ if (rng_pool == null) {
       // Sometimes Firefox will deny permission to access event properties for some reason. Ignore.
     }
   };
-  if (window.addEventListener) {
-      window.addEventListener("mousemove", onMouseMoveListener, false);
-  } else if ((window as any).attachEvent) {
-      (window as any).attachEvent("onmousemove", onMouseMoveListener);
+  if (globalThis.addEventListener) {
+      globalThis.addEventListener("mousemove", onMouseMoveListener, false);
+  } else if ((globalThis as any).attachEvent) {
+      (globalThis as any).attachEvent("onmousemove", onMouseMoveListener);
   }
 
 }

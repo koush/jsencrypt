@@ -1849,13 +1849,19 @@ function am3(i:number, x:number, w:BigInteger, j:number, c:number, n:number) {
     return c;
 }
 
-if (j_lm && (navigator.appName == "Microsoft Internet Explorer")) {
-    BigInteger.prototype.am = am2;
-    dbits = 30;
-} else if (j_lm && (navigator.appName != "Netscape")) {
-    BigInteger.prototype.am = am1;
-    dbits = 26;
-} else { // Mozilla/Netscape seems to prefer am3
+try {
+    if (j_lm && (navigator.appName == "Microsoft Internet Explorer")) {
+        BigInteger.prototype.am = am2;
+        dbits = 30;
+    } else if (j_lm && (navigator.appName != "Netscape")) {
+        BigInteger.prototype.am = am1;
+        dbits = 26;
+    } else { // Mozilla/Netscape seems to prefer am3
+        BigInteger.prototype.am = am3;
+        dbits = 28;
+    }
+}
+catch (e) {
     BigInteger.prototype.am = am3;
     dbits = 28;
 }

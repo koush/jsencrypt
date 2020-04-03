@@ -1,4 +1,4 @@
 import JSEncrypt from "./JSEncrypt";
-(window as any).JSEncrypt = JSEncrypt;
-export { JSEncrypt };
+import {BigInteger} from "../lib/jsbn/jsbn";
+export {JSEncrypt, BigInteger};
 export default JSEncrypt;

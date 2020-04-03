@@ -1,9 +1,118 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.JSEncrypt = {})));
-}(this, (function (exports) { 'use strict';
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(exports, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "JSEncrypt", function() { return /* reexport */ src_JSEncrypt; });
+__webpack_require__.d(__webpack_exports__, "BigInteger", function() { return /* reexport */ jsbn_BigInteger; });
+
+// CONCATENATED MODULE: ./lib/jsbn/util.ts
 var BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
 function int2char(n) {
     return BI_RM.charAt(n);
@@ -62,6 +171,8 @@ function cbit(x) {
     return r;
 }
 //#endregion BIT_OPERATIONS
+
+// CONCATENATED MODULE: ./lib/jsbn/base64.ts
 
 var b64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 var b64pad = "=";
@@ -127,7 +238,19 @@ function b64tohex(s) {
     }
     return ret;
 }
+// convert a base64 string to a byte/number array
+function b64toBA(s) {
+    // piggyback on b64tohex for now, optimize later
+    var h = b64tohex(s);
+    var i;
+    var a = [];
+    for (i = 0; 2 * i < h.length; ++i) {
+        a[i] = parseInt(h.substring(2 * i, 2 * i + 2), 16);
+    }
+    return a;
+}
 
+// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -157,6 +280,192 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __exportStar(m, exports) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result.default = mod;
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+// CONCATENATED MODULE: ./lib/asn1js/hex.ts
 // Hex JavaScript decoder
 // Copyright (c) 2008-2013 Lapo Luchini <lapo@lapo.it>
 // Permission to use, copy, modify, and/or distribute this software for any
@@ -222,6 +531,7 @@ var Hex = {
     }
 };
 
+// CONCATENATED MODULE: ./lib/asn1js/base64.ts
 // Base64 JavaScript decoder
 // Copyright (c) 2008-2013 Lapo Luchini <lapo@lapo.it>
 // Permission to use, copy, modify, and/or distribute this software for any
@@ -236,19 +546,19 @@ var Hex = {
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /*jshint browser: true, strict: true, immed: true, latedef: true, undef: true, regexdash: false */
-var decoder$1;
+var base64_decoder;
 var Base64 = {
     decode: function (a) {
         var i;
-        if (decoder$1 === undefined) {
+        if (base64_decoder === undefined) {
             var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
             var ignore = "= \f\n\r\t\u00A0\u2028\u2029";
-            decoder$1 = Object.create(null);
+            base64_decoder = Object.create(null);
             for (i = 0; i < 64; ++i) {
-                decoder$1[b64.charAt(i)] = i;
+                base64_decoder[b64.charAt(i)] = i;
             }
             for (i = 0; i < ignore.length; ++i) {
-                decoder$1[ignore.charAt(i)] = -1;
+                base64_decoder[ignore.charAt(i)] = -1;
             }
         }
         var out = [];
@@ -259,7 +569,7 @@ var Base64 = {
             if (c == "=") {
                 break;
             }
-            c = decoder$1[c];
+            c = base64_decoder[c];
             if (c == -1) {
                 continue;
             }
@@ -309,6 +619,7 @@ var Base64 = {
     }
 };
 
+// CONCATENATED MODULE: ./lib/asn1js/int10.ts
 // Big integer base-10 printing library
 // Copyright (c) 2014 Lapo Luchini <lapo@lapo.it>
 // Permission to use, copy, modify, and/or distribute this software for any
@@ -396,7 +707,24 @@ var Int10 = /** @class */ (function () {
     return Int10;
 }());
 
+
+// CONCATENATED MODULE: ./lib/asn1js/asn1.ts
 // ASN.1 JavaScript decoder
+// Copyright (c) 2008-2014 Lapo Luchini <lapo@lapo.it>
+// Permission to use, copy, modify, and/or distribute this software for any
+// purpose with or without fee is hereby granted, provided that the above
+// copyright notice and this permission notice appear in all copies.
+//
+// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+// WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+// ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+// WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+// ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+// OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+/*jshint browser: true, strict: true, immed: true, latedef: true, undef: true, regexdash: false */
+/*global oids */
+
 var ellipsis = "\u2026";
 var reTimeS = /^(\d\d)(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])([01]\d|2[0-3])(?:([0-5]\d)(?:([0-5]\d)(?:[.,](\d{1,3}))?)?)?(Z|[-+](?:[0]\d|1[0-2])([0-5]\d)?)?$/;
 var reTimeL = /^(\d\d\d\d)(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])([01]\d|2[0-3])(?:([0-5]\d)(?:([0-5]\d)(?:[.,](\d{1,3}))?)?)?(Z|[-+](?:[0]\d|1[0-2])([0-5]\d)?)?$/;
@@ -406,7 +734,7 @@ function stringCut(str, len) {
     }
     return str;
 }
-var Stream = /** @class */ (function () {
+var asn1_Stream = /** @class */ (function () {
     function Stream(enc, pos) {
         this.hexDigits = "0123456789ABCDEF";
         if (enc instanceof Stream) {
@@ -632,9 +960,10 @@ var Stream = /** @class */ (function () {
     };
     return Stream;
 }());
+
 var ASN1 = /** @class */ (function () {
     function ASN1(stream, header, length, tag, sub) {
-        if (!(tag instanceof ASN1Tag)) {
+        if (!(tag instanceof asn1_ASN1Tag)) {
             throw new Error("Invalid tag value.");
         }
         this.stream = stream;
@@ -844,14 +1173,14 @@ var ASN1 = /** @class */ (function () {
     };
     ASN1.decode = function (str) {
         var stream;
-        if (!(str instanceof Stream)) {
-            stream = new Stream(str, 0);
+        if (!(str instanceof asn1_Stream)) {
+            stream = new asn1_Stream(str, 0);
         }
         else {
             stream = str;
         }
-        var streamStart = new Stream(stream);
-        var tag = new ASN1Tag(stream);
+        var streamStart = new asn1_Stream(stream);
+        var tag = new asn1_ASN1Tag(stream);
         var len = ASN1.decodeLength(stream);
         var start = stream.pos;
         var header = start - streamStart.pos;
@@ -920,7 +1249,8 @@ var ASN1 = /** @class */ (function () {
     };
     return ASN1;
 }());
-var ASN1Tag = /** @class */ (function () {
+
+var asn1_ASN1Tag = /** @class */ (function () {
     function ASN1Tag(stream) {
         var buf = stream.get();
         this.tagClass = buf >> 6;
@@ -944,7 +1274,13 @@ var ASN1Tag = /** @class */ (function () {
     return ASN1Tag;
 }());
 
+
+// CONCATENATED MODULE: ./lib/jsbn/jsbn.ts
 // Copyright (c) 2005  Tom Wu
+// All Rights Reserved.
+// See "LICENSE" for details.
+// Basic JavaScript BN library - subset useful for RSA encryption.
+
 // Bits per digit
 var dbits;
 // JavaScript engine analysis
@@ -955,7 +1291,7 @@ var lowprimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
 var lplim = (1 << 26) / lowprimes[lowprimes.length - 1];
 //#endregion
 // (public) Constructor
-var BigInteger = /** @class */ (function () {
+var jsbn_BigInteger = /** @class */ (function () {
     function BigInteger(a, b, c) {
         if (a != null) {
             if ("number" == typeof a) {
@@ -2377,6 +2713,7 @@ var BigInteger = /** @class */ (function () {
     };
     return BigInteger;
 }());
+
 //#region REDUCERS
 //#region NullExp
 var NullExp = /** @class */ (function () {
@@ -2452,7 +2789,7 @@ var Montgomery = /** @class */ (function () {
         var r = nbi();
         x.abs().dlShiftTo(this.m.t, r);
         r.divRemTo(this.m, null, r);
-        if (x.s < 0 && r.compareTo(BigInteger.ZERO) > 0) {
+        if (x.s < 0 && r.compareTo(jsbn_BigInteger.ZERO) > 0) {
             this.m.subTo(r, r);
         }
         return r;
@@ -2514,7 +2851,7 @@ var Barrett = /** @class */ (function () {
         // setup Barrett
         this.r2 = nbi();
         this.q3 = nbi();
-        BigInteger.ONE.dlShiftTo(2 * m.t, this.r2);
+        jsbn_BigInteger.ONE.dlShiftTo(2 * m.t, this.r2);
         this.mu = this.r2.divide(m);
     }
     // Barrett.prototype.convert = barrettConvert;
@@ -2571,9 +2908,9 @@ var Barrett = /** @class */ (function () {
 //#endregion
 //#endregion REDUCERS
 // return new, unset BigInteger
-function nbi() { return new BigInteger(null); }
+function nbi() { return new jsbn_BigInteger(null); }
 function parseBigInt(str, r) {
-    return new BigInteger(str, r);
+    return new jsbn_BigInteger(str, r);
 }
 // am: Compute w_j += (x*this_i), propagate carries,
 // c is initial carry, returns final carry.
@@ -2621,25 +2958,31 @@ function am3(i, x, w, j, c, n) {
     }
     return c;
 }
-if (j_lm && (navigator.appName == "Microsoft Internet Explorer")) {
-    BigInteger.prototype.am = am2;
-    dbits = 30;
+try {
+    if (j_lm && (navigator.appName == "Microsoft Internet Explorer")) {
+        jsbn_BigInteger.prototype.am = am2;
+        dbits = 30;
+    }
+    else if (j_lm && (navigator.appName != "Netscape")) {
+        jsbn_BigInteger.prototype.am = am1;
+        dbits = 26;
+    }
+    else { // Mozilla/Netscape seems to prefer am3
+        jsbn_BigInteger.prototype.am = am3;
+        dbits = 28;
+    }
 }
-else if (j_lm && (navigator.appName != "Netscape")) {
-    BigInteger.prototype.am = am1;
-    dbits = 26;
-}
-else { // Mozilla/Netscape seems to prefer am3
-    BigInteger.prototype.am = am3;
+catch (e) {
+    jsbn_BigInteger.prototype.am = am3;
     dbits = 28;
 }
-BigInteger.prototype.DB = dbits;
-BigInteger.prototype.DM = ((1 << dbits) - 1);
-BigInteger.prototype.DV = (1 << dbits);
+jsbn_BigInteger.prototype.DB = dbits;
+jsbn_BigInteger.prototype.DM = ((1 << dbits) - 1);
+jsbn_BigInteger.prototype.DV = (1 << dbits);
 var BI_FP = 52;
-BigInteger.prototype.FV = Math.pow(2, BI_FP);
-BigInteger.prototype.F1 = BI_FP - dbits;
-BigInteger.prototype.F2 = 2 * dbits - BI_FP;
+jsbn_BigInteger.prototype.FV = Math.pow(2, BI_FP);
+jsbn_BigInteger.prototype.F1 = BI_FP - dbits;
+jsbn_BigInteger.prototype.F2 = 2 * dbits - BI_FP;
 // Digit conversions
 var BI_RC = [];
 var rr;
@@ -2693,9 +3036,10 @@ function nbits(x) {
     return r;
 }
 // "constants"
-BigInteger.ZERO = nbv(0);
-BigInteger.ONE = nbv(1);
+jsbn_BigInteger.ZERO = nbv(0);
+jsbn_BigInteger.ONE = nbv(1);
 
+// CONCATENATED MODULE: ./lib/jsbn/prng4.ts
 // prng4.js - uses Arcfour as a PRNG
 var Arcfour = /** @class */ (function () {
     function Arcfour() {
@@ -2734,6 +3078,7 @@ var Arcfour = /** @class */ (function () {
     };
     return Arcfour;
 }());
+
 // Plug in your RNG constructor here
 function prng_newstate() {
     return new Arcfour();
@@ -2742,7 +3087,9 @@ function prng_newstate() {
 // An array of bytes the size of the pool will be passed to init()
 var rng_psize = 256;
 
+// CONCATENATED MODULE: ./lib/jsbn/rng.ts
 // Random number generator - requires a PRNG backend, e.g. prng4.js
+
 var rng_state;
 var rng_pool = null;
 var rng_pptr;
@@ -2750,13 +3097,13 @@ var rng_pptr;
 if (rng_pool == null) {
     rng_pool = [];
     rng_pptr = 0;
-    var t = void 0;
-    if (window.crypto && window.crypto.getRandomValues) {
+    var rng_t = void 0;
+    if (globalThis.crypto && globalThis.crypto.getRandomValues) {
         // Extract entropy (2048 bits) from RNG if available
         var z = new Uint32Array(256);
-        window.crypto.getRandomValues(z);
-        for (t = 0; t < z.length; ++t) {
-            rng_pool[rng_pptr++] = z[t] & 255;
+        globalThis.crypto.getRandomValues(z);
+        for (rng_t = 0; rng_t < z.length; ++rng_t) {
+            rng_pool[rng_pptr++] = z[rng_t] & 255;
         }
     }
     // Use mouse events for entropy, if we do not have enough entropy by the time
@@ -2764,11 +3111,11 @@ if (rng_pool == null) {
     var onMouseMoveListener_1 = function (ev) {
         this.count = this.count || 0;
         if (this.count >= 256 || rng_pptr >= rng_psize) {
-            if (window.removeEventListener) {
-                window.removeEventListener("mousemove", onMouseMoveListener_1, false);
+            if (globalThis.removeEventListener) {
+                globalThis.removeEventListener("mousemove", onMouseMoveListener_1, false);
             }
-            else if (window.detachEvent) {
-                window.detachEvent("onmousemove", onMouseMoveListener_1);
+            else if (globalThis.detachEvent) {
+                globalThis.detachEvent("onmousemove", onMouseMoveListener_1);
             }
             return;
         }
@@ -2781,11 +3128,11 @@ if (rng_pool == null) {
             // Sometimes Firefox will deny permission to access event properties for some reason. Ignore.
         }
     };
-    if (window.addEventListener) {
-        window.addEventListener("mousemove", onMouseMoveListener_1, false);
+    if (globalThis.addEventListener) {
+        globalThis.addEventListener("mousemove", onMouseMoveListener_1, false);
     }
-    else if (window.attachEvent) {
-        window.attachEvent("onmousemove", onMouseMoveListener_1);
+    else if (globalThis.attachEvent) {
+        globalThis.attachEvent("onmousemove", onMouseMoveListener_1);
     }
 }
 function rng_get_byte() {
@@ -2816,7 +3163,13 @@ var SecureRandom = /** @class */ (function () {
     return SecureRandom;
 }());
 
+
+// CONCATENATED MODULE: ./lib/jsbn/rsa.ts
 // Depends on jsbn.js and rng.js
+// Version 1.1: support utf-8 encoding in pkcs1pad2
+// convert a (hex) string to a bignum object
+
+
 // function linebrk(s,n) {
 //   var ret = "";
 //   var i = 0;
@@ -2880,10 +3233,10 @@ function pkcs1pad2(s, n) {
     }
     ba[--n] = 2;
     ba[--n] = 0;
-    return new BigInteger(ba);
+    return new jsbn_BigInteger(ba);
 }
 // "empty" RSA key constructor
-var RSAKey = /** @class */ (function () {
+var rsa_RSAKey = /** @class */ (function () {
     function RSAKey() {
         this.n = null;
         this.e = 0;
@@ -2982,17 +3335,17 @@ var RSAKey = /** @class */ (function () {
         var rng = new SecureRandom();
         var qs = B >> 1;
         this.e = parseInt(E, 16);
-        var ee = new BigInteger(E, 16);
+        var ee = new jsbn_BigInteger(E, 16);
         for (;;) {
             for (;;) {
-                this.p = new BigInteger(B - qs, 1, rng);
-                if (this.p.subtract(BigInteger.ONE).gcd(ee).compareTo(BigInteger.ONE) == 0 && this.p.isProbablePrime(10)) {
+                this.p = new jsbn_BigInteger(B - qs, 1, rng);
+                if (this.p.subtract(jsbn_BigInteger.ONE).gcd(ee).compareTo(jsbn_BigInteger.ONE) == 0 && this.p.isProbablePrime(10)) {
                     break;
                 }
             }
             for (;;) {
-                this.q = new BigInteger(qs, 1, rng);
-                if (this.q.subtract(BigInteger.ONE).gcd(ee).compareTo(BigInteger.ONE) == 0 && this.q.isProbablePrime(10)) {
+                this.q = new jsbn_BigInteger(qs, 1, rng);
+                if (this.q.subtract(jsbn_BigInteger.ONE).gcd(ee).compareTo(jsbn_BigInteger.ONE) == 0 && this.q.isProbablePrime(10)) {
                     break;
                 }
             }
@@ -3001,10 +3354,10 @@ var RSAKey = /** @class */ (function () {
                 this.p = this.q;
                 this.q = t;
             }
-            var p1 = this.p.subtract(BigInteger.ONE);
-            var q1 = this.q.subtract(BigInteger.ONE);
+            var p1 = this.p.subtract(jsbn_BigInteger.ONE);
+            var q1 = this.q.subtract(jsbn_BigInteger.ONE);
             var phi = p1.multiply(q1);
-            if (phi.gcd(ee).compareTo(BigInteger.ONE) == 0) {
+            if (phi.gcd(ee).compareTo(jsbn_BigInteger.ONE) == 0) {
                 this.n = this.p.multiply(this.q);
                 this.d = ee.modInverse(phi);
                 this.dmp1 = this.d.mod(p1);
@@ -3030,7 +3383,7 @@ var RSAKey = /** @class */ (function () {
         var rng = new SecureRandom();
         var qs = B >> 1;
         this.e = parseInt(E, 16);
-        var ee = new BigInteger(E, 16);
+        var ee = new jsbn_BigInteger(E, 16);
         var rsa = this;
         // These functions have non-descript names because they were originally for(;;) loops.
         // I don't know about cryptography to give them better names than loop1-4.
@@ -3041,10 +3394,10 @@ var RSAKey = /** @class */ (function () {
                     rsa.p = rsa.q;
                     rsa.q = t;
                 }
-                var p1 = rsa.p.subtract(BigInteger.ONE);
-                var q1 = rsa.q.subtract(BigInteger.ONE);
+                var p1 = rsa.p.subtract(jsbn_BigInteger.ONE);
+                var q1 = rsa.q.subtract(jsbn_BigInteger.ONE);
                 var phi = p1.multiply(q1);
-                if (phi.gcd(ee).compareTo(BigInteger.ONE) == 0) {
+                if (phi.gcd(ee).compareTo(jsbn_BigInteger.ONE) == 0) {
                     rsa.n = rsa.p.multiply(rsa.q);
                     rsa.d = ee.modInverse(phi);
                     rsa.dmp1 = rsa.d.mod(p1);
@@ -3059,8 +3412,8 @@ var RSAKey = /** @class */ (function () {
             var loop3 = function () {
                 rsa.q = nbi();
                 rsa.q.fromNumberAsync(qs, 1, rng, function () {
-                    rsa.q.subtract(BigInteger.ONE).gcda(ee, function (r) {
-                        if (r.compareTo(BigInteger.ONE) == 0 && rsa.q.isProbablePrime(10)) {
+                    rsa.q.subtract(jsbn_BigInteger.ONE).gcda(ee, function (r) {
+                        if (r.compareTo(jsbn_BigInteger.ONE) == 0 && rsa.q.isProbablePrime(10)) {
                             setTimeout(loop4, 0);
                         }
                         else {
@@ -3072,8 +3425,8 @@ var RSAKey = /** @class */ (function () {
             var loop2 = function () {
                 rsa.p = nbi();
                 rsa.p.fromNumberAsync(B - qs, 1, rng, function () {
-                    rsa.p.subtract(BigInteger.ONE).gcda(ee, function (r) {
-                        if (r.compareTo(BigInteger.ONE) == 0 && rsa.p.isProbablePrime(10)) {
+                    rsa.p.subtract(jsbn_BigInteger.ONE).gcda(ee, function (r) {
+                        if (r.compareTo(jsbn_BigInteger.ONE) == 0 && rsa.p.isProbablePrime(10)) {
                             setTimeout(loop3, 0);
                         }
                         else {
@@ -3117,6 +3470,7 @@ var RSAKey = /** @class */ (function () {
     };
     return RSAKey;
 }());
+
 // Undo PKCS#1 (type 2, random) padding and, if valid, return the plaintext
 function pkcs1unpad2(d, n) {
     var b = d.toByteArray();
@@ -3184,6 +3538,7 @@ function removeDigestHeader(str) {
 // public
 // RSAKey.prototype.encrypt_b64 = RSAEncryptB64;
 
+// CONCATENATED MODULE: ./lib/jsrsasign/yahoo.js
 /*!
 Copyright (c) 2011, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
@@ -3251,13 +3606,28 @@ YAHOO.lang = {
                         }
                     };
                 }
-            } catch (ex) {}            _IEEnumFix(subc.prototype, overrides);
+            } catch (ex) {};
+            _IEEnumFix(subc.prototype, overrides);
         }
     }
 };
-
+// CONCATENATED MODULE: ./lib/jsrsasign/asn1-1.0.js
 /* asn1-1.0.13.js (c) 2013-2017 Kenji Urushima | kjur.github.com/jsrsasign/license
  */
+/*
+ * asn1.js - ASN.1 DER encoder classes
+ *
+ * Copyright (c) 2013-2017 Kenji Urushima (kenji.urushima@gmail.com)
+ *
+ * This software is licensed under the terms of the MIT License.
+ * https://kjur.github.io/jsrsasign/license
+ *
+ * The above copyright and license notice shall be
+ * included in all copies or substantial portions of the Software.
+ */
+
+
+
 
 /**
  * @fileOverview
@@ -3372,8 +3742,8 @@ KJUR.asn1.ASN1Util = new function() {
             for (var i = 0; i < xorLen; i++) {
                 hMask += 'f';
             }
-            var biMask = new BigInteger(hMask, 16);
-            var biNeg = biMask.xor(bigIntegerValue).add(BigInteger.ONE);
+            var biMask = new jsbn_BigInteger(hMask, 16);
+            var biNeg = biMask.xor(bigIntegerValue).add(jsbn_BigInteger.ONE);
             h = biNeg.toString(16).replace(/^-/, '');
         }
         return h;
@@ -3584,11 +3954,12 @@ KJUR.asn1.ASN1Util.oidHexToInt = function(hex) {
         var bin = ("00000000" + value.toString(2)).slice(- 8);
         binbuf = binbuf + bin.substr(1, 7);
         if (bin.substr(0, 1) == "0") {
-            var bi = new BigInteger(binbuf, 2);
+            var bi = new jsbn_BigInteger(binbuf, 2);
             s = s + "." + bi.toString(10);
             binbuf = "";
         }
-    }
+    };
+
     return s;
 };
 
@@ -3615,7 +3986,7 @@ KJUR.asn1.ASN1Util.oidIntToHex = function(oidString) {
 
     var roidtox = function(roid) {
         var h = '';
-        var bi = new BigInteger(roid, 10);
+        var bi = new jsbn_BigInteger(roid, 10);
         var b = bi.toString(2);
         var padLen = 7 - b.length % 7;
         if (padLen == 7) padLen = 0;
@@ -3663,6 +4034,10 @@ KJUR.asn1.ASN1Util.oidIntToHex = function(oidString) {
  * @description
  */
 KJUR.asn1.ASN1Object = function() {
+    var isModified = true;
+    var hTLV = null;
+    var hT = '00';
+    var hL = '00';
     var hV = '';
 
     /**
@@ -3724,7 +4099,7 @@ KJUR.asn1.ASN1Object = function() {
     this.getValueHex = function() {
         this.getEncodedHex();
         return this.hV;
-    };
+    }
 
     this.getFreshValueHex = function() {
         return '';
@@ -3751,6 +4126,8 @@ KJUR.asn1.ASN1Object = function() {
  */
 KJUR.asn1.DERAbstractString = function(params) {
     KJUR.asn1.DERAbstractString.superclass.constructor.call(this);
+    var s = null;
+    var hV = null;
 
     /**
      * get string value of this string object
@@ -3820,6 +4197,8 @@ YAHOO.lang.extend(KJUR.asn1.DERAbstractString, KJUR.asn1.ASN1Object);
  */
 KJUR.asn1.DERAbstractTime = function(params) {
     KJUR.asn1.DERAbstractTime.superclass.constructor.call(this);
+    var s = null;
+    var date = null;
 
     // --- PRIVATE METHODS --------------------
     this.localDateToUTC = function(d) {
@@ -3927,6 +4306,7 @@ YAHOO.lang.extend(KJUR.asn1.DERAbstractTime, KJUR.asn1.ASN1Object);
  */
 KJUR.asn1.DERAbstractStructured = function(params) {
     KJUR.asn1.DERAbstractString.superclass.constructor.call(this);
+    var asn1Array = null;
 
     /**
      * set value by array of ASN1Object
@@ -4026,7 +4406,7 @@ KJUR.asn1.DERInteger = function(params) {
      * @param {Integer} integer value to set
      */
     this.setByInteger = function(intValue) {
-        var bi = new BigInteger(String(intValue), 10);
+        var bi = new jsbn_BigInteger(String(intValue), 10);
         this.setByBigInteger(bi);
     };
 
@@ -4329,7 +4709,7 @@ KJUR.asn1.DERObjectIdentifier = function(params) {
     };
     var roidtox = function(roid) {
         var h = '';
-        var bi = new BigInteger(roid, 10);
+        var bi = new jsbn_BigInteger(roid, 10);
         var b = bi.toString(2);
         var padLen = 7 - b.length % 7;
         if (padLen == 7) padLen = 0;
@@ -4342,7 +4722,7 @@ KJUR.asn1.DERObjectIdentifier = function(params) {
             h += itox(parseInt(b8, 2));
         }
         return h;
-    };
+    }
 
     KJUR.asn1.DERObjectIdentifier.superclass.constructor.call(this);
     this.hT = "06";
@@ -4479,7 +4859,7 @@ KJUR.asn1.DEREnumerated = function(params) {
      * @param {Integer} integer value to set
      */
     this.setByInteger = function(intValue) {
-        var bi = new BigInteger(String(intValue), 10);
+        var bi = new jsbn_BigInteger(String(intValue), 10);
         this.setByBigInteger(bi);
     };
 
@@ -4883,6 +5263,14 @@ KJUR.asn1.DERTaggedObject = function(params) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.DERTaggedObject, KJUR.asn1.ASN1Object);
+// CONCATENATED MODULE: ./src/JSEncryptRSAKey.ts
+
+
+
+
+
+
+
 
 /**
  * Create a new JSEncryptRSAKey that extends Tom Wu's RSA key object.
@@ -4891,7 +5279,7 @@ YAHOO.lang.extend(KJUR.asn1.DERTaggedObject, KJUR.asn1.ASN1Object);
  * the parameters needed to build a RSAKey object.
  * @constructor
  */
-var JSEncryptRSAKey = /** @class */ (function (_super) {
+var JSEncryptRSAKey_JSEncryptRSAKey = /** @class */ (function (_super) {
     __extends(JSEncryptRSAKey, _super);
     function JSEncryptRSAKey(key) {
         var _this = _super.call(this) || this;
@@ -5175,7 +5563,11 @@ var JSEncryptRSAKey = /** @class */ (function (_super) {
         }
     };
     return JSEncryptRSAKey;
-}(RSAKey));
+}(rsa_RSAKey));
+
+
+// CONCATENATED MODULE: ./src/JSEncrypt.ts
+
 
 /**
  *
@@ -5186,7 +5578,7 @@ var JSEncryptRSAKey = /** @class */ (function (_super) {
  * - log                     {boolean} default: false whether log warn/error or not
  * @constructor
  */
-var JSEncrypt = /** @class */ (function () {
+var JSEncrypt_JSEncrypt = /** @class */ (function () {
     function JSEncrypt(options) {
         options = options || {};
         this.default_key_size = parseInt(options.default_key_size, 10) || 1024;
@@ -5206,7 +5598,7 @@ var JSEncrypt = /** @class */ (function () {
         if (this.log && this.key) {
             console.warn("A key was already set, overriding existing.");
         }
-        this.key = new JSEncryptRSAKey(key);
+        this.key = new JSEncryptRSAKey_JSEncryptRSAKey(key);
     };
     /**
      * Proxy method for setKey, for api compatibility
@@ -5306,7 +5698,7 @@ var JSEncrypt = /** @class */ (function () {
         // Only create new if it does not exist.
         if (!this.key) {
             // Get a new private key.
-            this.key = new JSEncryptRSAKey();
+            this.key = new JSEncryptRSAKey_JSEncryptRSAKey();
             if (cb && {}.toString.call(cb) === "[object Function]") {
                 this.key.generateAsync(this.default_key_size, this.default_public_exponent, cb);
                 return;
@@ -5359,12 +5751,15 @@ var JSEncrypt = /** @class */ (function () {
     JSEncrypt.version = "3.0.0-rc.1";
     return JSEncrypt;
 }());
+/* harmony default export */ var src_JSEncrypt = (JSEncrypt_JSEncrypt);
 
-window.JSEncrypt = JSEncrypt;
+// CONCATENATED MODULE: ./src/index.ts
 
-exports.JSEncrypt = JSEncrypt;
-exports.default = JSEncrypt;
 
-Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+/* harmony default export */ var src = __webpack_exports__["default"] = (src_JSEncrypt);
+
+
+/***/ })
+/******/ ]);
+});
